@@ -1,0 +1,41 @@
+defaults:
+  - override hydra/hydra_logging: disabled  
+  - override hydra/job_logging: disabled
+  - _self_
+  
+hydra:  
+  output_subdir: null  
+  run:  
+    dir: .
+
+experiment:
+  name: SimCLR
+  tracking_uri: sqlite:///SimCLR.db
+  logdir: ./logdir
+  run_id: null
+
+dataset:
+  name: cifar100
+  root: /sda2/datasets/cifar100/ciFAIR-100  # specify the root to the dataset folder
+  train_file: ${dataset.root}/train.json  # specify path to the json file
+  test_file: ${dataset.root}/test.json
+  resized_shape: null
+  crop_size: [32, 32]
+  prob_random_h_flip: null
+  mean: null
+  std: null
+
+hparams:
+  repr_dim: 128  # update this hyper-parameter
+  temperature: 1.
+  lr: 0.01
+  batch_size: 128
+  num_epochs: 1_000
+  num_threads: 2
+  prefetch_size: 8
+  progress_bar: True
+
+jax:
+  platform: cuda
+  mem: 0.9
+  disable_jit: False
